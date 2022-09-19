@@ -1,0 +1,18 @@
+{%- capture seo_title -%}
+    {%- if template == "collection" -%}{{ "Order " }}{%- endif -%}
+    {{- page_title -}}
+    {%- if template == "collection" -%}{{ " Online" }}{%- endif -%}
+    {% assign my_separator = " » " %}
+    {%- if current_tags -%}{%- assign meta_tags = current_tags | join: ', ' -%}
+      {%- if template == 'blog' -%} 
+      {{ " Articles" }} {%- if current_tags -%}{{ 'general.meta.tags' | t: tags: meta_tags | capitalize | remove: "&quot;" -}}{%- endif -%}
+      {%- else -%}
+      {{ my_separator }}{{ 'general.meta.tags' | t: tags: meta_tags -}}
+      {%- endif -%}
+    {%- endif -%}
+    {%- if current_page != 1 -%}{{ my_separator }}{{ 'general.meta.page' | t: page: current_page }}{%- endif -%}
+    {%- if template == "product" -%}{{ " only " }}{{ product.variants[0].price | money }}{{ my_separator }}{% for product_option in product.options_with_values %}{% if product_option.name == 'Color' %}{{ product_option.values | join: ', ' }}{% endif %}{% endfor %}{% if product.metafields.my_fields.dress_length != blank %} {{ product.metafields.my_fields.dress_length }}{%- endif -%}{%- endif -%}
+    {% if template == "collection" %}{{ my_separator }}Free Shipping, No-Hassle Returns{% endif %}{{ my_separator }}{{ shop.name }}
+  {%- endcapture -%}
+
+<title>{{ seo_title | strip_newlines }}</title>
